@@ -13,19 +13,19 @@ def format_report(name, id, performances):
 ---------- lev_trie ----------
 best accuracy: {performances['lev_trie']['best_acc']}
 candidate accuracy: {performances['lev_trie']['cand_acc']}
-total_time: {performances['lev_trie']['time']} seconds
+time: {performances['lev_trie']['time']} seconds
 ---------- dalev_trie ----------
 best accuracy: {performances['dalev_trie']['best_acc']}
 candidate accuracy: {performances['dalev_trie']['cand_acc']}
-total_time: {performances['dalev_trie']['time']} seconds
+time: {performances['dalev_trie']['time']} seconds
 ---------- lev_dict ----------
 best accuracy: {performances['lev_dict']['best_acc']}
 candidate accuracy: {performances['lev_dict']['cand_acc']}
-total_time: {performances['lev_dict']['time']} seconds
+time: {performances['lev_dict']['time']} seconds
 ---------- dalev_dict ----------
 best accuracy: {performances['dalev_dict']['best_acc']}
 candidate accuracy: {performances['dalev_dict']['cand_acc']}
-total_time: {performances['dalev_dict']['time']} seconds
+time: {performances['dalev_dict']['time']} seconds
 """
 
     return performance_report

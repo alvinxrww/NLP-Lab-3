@@ -1,64 +1,58 @@
 import time
 import sys
 from trie_structure.trie import TrieNode
-""" Code is modification from http://stevehanov.ca/blog/?id=114 and paper 10.1109/ISRITI56927.2022.10053062 """
+""" Code is modified from http://stevehanov.ca/blog/?id=114 and paper 10.1109/ISRITI56927.2022.10053062 """
+
+
 class LevenshteinTrie:
     def __init__(self, dict_path):
         self.trie = TrieNode()
         self._dict = self.convert_trie(dict_path)
-        
 
     def convert_trie(self, path):
         for word in open(path, "rt", encoding='utf-8').read().split():
-            self.trie.insert( word )
+            self.trie.insert(word)
 
-    
-
-    def search(self, word, maxCost):
+    def search(self, word, max_cost):
         word = word.lower()
-        currentRow = range( len(word) + 1 )
-        
+        current_row = range(len(word) + 1)
 
         results = []
-
         for letter in self.trie.children:
-            self.searchRecursive( self.trie.children[letter], letter, word, currentRow, 
-                results, maxCost )
-        
+            self.search_recursive(self.trie.children[letter], letter, word, current_row,
+                                  results, max_cost)
 
         return results
 
+    def search_recursive(self, node, letter, word, previous_row, results, max_cost):
+        columns = len(word) + 1
+        current_row = [previous_row[0] + 1]
 
-    def searchRecursive(self, node, letter, word, previousRow, results, maxCost ):
-        columns = len( word ) + 1
-        currentRow = [ previousRow[0] + 1 ]
+        for column in range(1, columns):
 
-
-        for column in range( 1, columns ):
-
-            insertCost = currentRow[column - 1] + 1
-            deleteCost = previousRow[column] + 1
+            insert_cost = current_row[column - 1] + 1
+            delete_cost = previous_row[column] + 1
 
             if word[column - 1] != letter:
-                replaceCost = previousRow[ column - 1 ] + 1
-            else:                
-                replaceCost = previousRow[ column - 1 ]
+                replace_cost = previous_row[column - 1] + 1
+            else:
+                replace_cost = previous_row[column - 1]
 
-            currentRow.append( min( insertCost, deleteCost, replaceCost ) )
+            current_row.append(min(insert_cost, delete_cost, replace_cost))
 
-        if currentRow[-1] <= maxCost and node.word != None:
-            results.append( (node.word, currentRow[-1] ) )
-        
+        if current_row[-1] <= max_cost and node.word != None:
+            results.append((node.word, current_row[-1]))
 
-        if min( currentRow ) <= maxCost:
+        if min(current_row) <= max_cost:
             for letter in node.children:
-                self.searchRecursive( node.children[letter], letter, word, currentRow, 
-                    results, maxCost )
-        
+                self.search_recursive(node.children[letter], letter, word, current_row,
+                                      results, max_cost)
+
     def get_candidates(self, typo, max_cost):
         candidates = self.search(typo, max_cost)
-        sorted_candidates = sorted(candidates, key=lambda item: (item[1], len(item), item[0]))
-        
+        sorted_candidates = sorted(
+            candidates, key=lambda item: (item[1], len(item), item[0]))
+
         candidate_words = [candidate[0] for candidate in sorted_candidates]
-        
+
         return candidate_words
