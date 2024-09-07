@@ -2,7 +2,7 @@ import time
 import sys
 from Levenshtein import distance
 
-""" Code is modification from http://stevehanov.ca/blog/?id=114 and paper 10.1109/ISRITI56927.2022.10053062 """
+# Code is modified from http://stevehanov.ca/blog/?id=114 and paper 10.1109/ISRITI56927.2022.10053062
 
 
 class LevenshteinDict:

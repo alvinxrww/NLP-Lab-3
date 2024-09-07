@@ -1,34 +1,36 @@
 from trie_structure.trie import TrieNode
 
-""" Code is modification from http://stevehanov.ca/blog/?id=114 and paper 10.1109/ISRITI56927.2022.10053062 """
+# Code is modification from http://stevehanov.ca/blog/?id=114 and paper 10.1109/ISRITI56927.2022.10053062
+
+
 class DamerauLevenshteinTrie:
     def __init__(self, dict_path):
         self.trie = TrieNode()
         self._dict = self.convert_trie(dict_path)
 
     def convert_trie(self, path):
-        WordCount = 0
         for word in open(path, "rt", encoding='utf-8').read().split():
-            self.trie.insert( word )
-    
+            self.trie.insert(word)
+
     def search(self, word, max_cost):
         word = word.lower()
-        currentRow = range(len(word)+1)
+        current_row = range(len(word)+1)
         results = []
 
         for letter in self.trie.children:
-            self.search_recursive(self.trie.children[letter], letter, None, word, currentRow, None, results, max_cost)
+            self.search_recursive(
+                self.trie.children[letter], letter, None, word, current_row, None, results, max_cost)
 
         return results
-    
+
     def search_recursive(
         self,
-        node, 
-        char, 
-        prev_char, 
-        word, 
-        previous_row, 
-        pre_previous_row, 
+        node,
+        char,
+        prev_char,
+        word,
+        previous_row,
+        pre_previous_row,
         results,
         max_cost,
     ):
@@ -64,21 +66,21 @@ class DamerauLevenshteinTrie:
             for char in node.children:
                 self.search_recursive(
                     node.children[char],
-                    char, 
+                    char,
                     prev_char,
-                    word, 
-                    current_row, 
+                    word,
+                    current_row,
                     previous_row,
-                    results, 
+                    results,
                     max_cost,
                 )
 
     def get_candidates(self, typo, max_cost):
-        
-        candidates = self.search(typo, max_cost)
-        sorted_candidates = sorted(candidates, key=lambda item: (item[1], len(item), item[0]))
-        
-        candidate_words = [candidate[0] for candidate in sorted_candidates]
-        
-        return candidate_words
 
+        candidates = self.search(typo, max_cost)
+        sorted_candidates = sorted(
+            candidates, key=lambda item: (item[1], len(item), item[0]))
+
+        candidate_words = [candidate[0] for candidate in sorted_candidates]
+
+        return candidate_words

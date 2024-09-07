@@ -1,7 +1,8 @@
 import time
 import sys
 from trie_structure.trie import TrieNode
-""" Code is modified from http://stevehanov.ca/blog/?id=114 and paper 10.1109/ISRITI56927.2022.10053062 """
+
+# Code is modified from http://stevehanov.ca/blog/?id=114 and paper 10.1109/ISRITI56927.2022.10053062
 
 
 class LevenshteinTrie:
