@@ -1,4 +1,4 @@
-# code modified from: http://stevehanov.ca/blog/?id=114
+# code is modified from: http://stevehanov.ca/blog/?id=114
 class TrieNode:
     def __init__(self):
         self.word = None
